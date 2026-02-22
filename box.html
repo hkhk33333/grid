@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Context-Aware AI Dev Agent — Box PM Pitch</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #f0f0f0;
+    color: #151f26;
+}
+
+@page {
+    size: 1100px 700px;
+    margin: 0;
+}
+
+.slide {
+    width: 1100px;
+    height: 700px;
+    padding: 60px 80px;
+    page-break-after: always;
+    page-break-inside: avoid;
+    margin: 60px auto 40px auto;
+    overflow: hidden;
+    position: relative;
+    background: #fff;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.slide:first-of-type {
+    margin-top: 80px;
+}
+
+.print-instructions {
+    background: #0061d5;
+    color: #fff;
+    text-align: center;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+@media print {
+    .print-instructions {
+        display: none !important;
+    }
+    body {
+        background: white;
+    }
+    .slide {
+        margin: 0;
+        box-shadow: none;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+
+/* ===== SLIDE 1: TITLE ===== */
+.slide-title {
+    background: linear-gradient(135deg, #0061d5 0%, #003d87 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.slide-title .eyebrow {
+    color: rgba(255,255,255,0.7);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+}
+
+.slide-title h1 {
+    color: #fff;
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1.2;
+    max-width: 820px;
+    margin-bottom: 16px;
+}
+
+.slide-title h1 span {
+    background: linear-gradient(90deg, #7ec8e3, #a8e6cf);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.slide-title .subtitle {
+    color: rgba(255,255,255,0.85);
+    font-size: 19px;
+    font-weight: 300;
+    margin-bottom: 48px;
+    max-width: 640px;
+    line-height: 1.5;
+}
+
+.slide-title .meta {
+    color: rgba(255,255,255,0.6);
+    font-size: 13px;
+}
+
+.slide-title .meta strong {
+    color: #fff;
+}
+
+/* ===== SLIDE 2: PROBLEM ===== */
+.slide-problem h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #151f26;
+    margin-bottom: 6px;
+}
+
+.section-sub {
+    font-size: 15px;
+    color: #767676;
+    margin-bottom: 28px;
+}
+
+.problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 36px 1fr 36px 1fr;
+    align-items: start;
+    gap: 0;
+    margin-bottom: 24px;
+}
+
+.problem-card {
+    background: #f5f6f8;
+    border-radius: 12px;
+    padding: 22px;
+    border: 1px solid #dde6ed;
+}
+
+.problem-card.highlight {
+    background: linear-gradient(135deg, #0061d5, #003d87);
+    border: 2px solid #7ec8e3;
+}
+
+.problem-card.highlight .card-title,
+.problem-card.highlight .card-desc,
+.problem-card.highlight .card-detail {
+    color: #fff;
+}
+
+.problem-card.highlight .card-label {
+    color: #7ec8e3;
+}
+
+.card-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 6px;
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #151f26;
+    margin-bottom: 6px;
+}
+
+.card-desc {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.5;
+}
+
+.card-detail {
+    font-size: 12px;
+    color: #888;
+    margin-top: 8px;
+    font-style: italic;
+}
+
+.arrow-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: #0061d5;
+    padding-top: 50px;
+}
+
+.stat-bar {
+    display: flex;
+    gap: 32px;
+}
+
+.stat-item {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.stat-num {
+    font-size: 28px;
+    font-weight: 700;
+    color: #0061d5;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #666;
+    max-width: 200px;
+    line-height: 1.3;
+}
+
+/* ===== SLIDE 3: SOLUTION ===== */
+.slide-solution h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #151f26;
+    margin-bottom: 20px;
+}
+
+.solution-example {
+    background: #0061d5;
+    border-radius: 12px;
+    padding: 20px 28px;
+    margin-bottom: 20px;
+}
+
+.example-scenario {
+    color: rgba(255,255,255,0.7);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.example-text {
+    color: #fff;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.example-text em {
+    color: #7ec8e3;
+    font-style: normal;
+    font-weight: 600;
+}
+
+.solution-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.sol-col h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: #151f26;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.sol-col ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sol-col ul li {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.5;
+    padding: 5px 0;
+    padding-left: 18px;
+    position: relative;
+}
+
+.sol-col ul li::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #0061d5;
+    position: absolute;
+    left: 0;
+    top: 11px;
+}
+
+.competitive-note {
+    margin-top: 16px;
+    padding: 12px 20px;
+    background: #fff8e1;
+    border-left: 4px solid #f9a825;
+    border-radius: 0 8px 8px 0;
+    font-size: 13px;
+    color: #555;
+}
+
+.competitive-note strong {
+    color: #e65100;
+}
+
+/* ===== SLIDE 4: ARCHITECTURE ===== */
+.slide-arch h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #151f26;
+    margin-bottom: 20px;
+}
+
+.arch-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 24px;
+}
+
+.flow-box {
+    background: #f5f6f8;
+    border: 1px solid #dde6ed;
+    border-radius: 10px;
+    padding: 14px 14px;
+    text-align: center;
+    min-width: 130px;
+}
+
+.flow-box.accent {
+    background: #0061d5;
+    border-color: #0061d5;
+}
+
+.flow-box.accent .flow-label,
+.flow-box.accent .flow-desc {
+    color: #fff;
+}
+
+.flow-box.accent .flow-label {
+    color: #7ec8e3;
+}
+
+.flow-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #999;
+    margin-bottom: 4px;
+}
+
+.flow-desc {
+    font-size: 12px;
+    font-weight: 500;
+    color: #151f26;
+}
+
+.flow-arrow {
+    font-size: 16px;
+    color: #c3d1d9;
+}
+
+.tradeoffs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+}
+
+.tradeoff-card {
+    background: #f5f6f8;
+    border-radius: 10px;
+    padding: 16px;
+    border-top: 3px solid #0061d5;
+}
+
+.tradeoff-card h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: #151f26;
+    margin-bottom: 6px;
+}
+
+.tradeoff-card .concern {
+    font-size: 11px;
+    color: #999;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tradeoff-card .approach {
+    font-size: 12px;
+    color: #444;
+    line-height: 1.4;
+}
+
+/* ===== SLIDE 5: METRICS ===== */
+.slide-metrics h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #151f26;
+    margin-bottom: 20px;
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 20px;
+}
+
+.metric-card {
+    background: #f5f6f8;
+    border-radius: 12px;
+    padding: 22px;
+    border-left: 4px solid #0061d5;
+}
+
+.metric-type {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #999;
+    margin-bottom: 6px;
+}
+
+.metric-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #151f26;
+    margin-bottom: 6px;
+}
+
+.metric-desc {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.5;
+}
+
+.methodology {
+    background: linear-gradient(135deg, #0061d5, #003d87);
+    border-radius: 12px;
+    padding: 20px 28px;
+}
+
+.methodology h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: #7ec8e3;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.methodology p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.6;
+}
+
+.methodology strong {
+    color: #fff;
+}
+
+/* ===== SLIDE 6: ROADMAP ===== */
+.slide-roadmap {
+    display: flex;
+    flex-direction: column;
+}
+
+.slide-roadmap h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #151f26;
+    margin-bottom: 24px;
+}
+
+.roadmap-phases {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 32px;
+}
+
+.phase {
+    background: #f5f6f8;
+    border-radius: 12px;
+    padding: 18px;
+    border-top: 3px solid #dde6ed;
+}
+
+.phase.active {
+    border-top-color: #0061d5;
+    background: linear-gradient(180deg, #eef5ff 0%, #fff 100%);
+}
+
+.phase-num {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 4px;
+}
+
+.phase-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #151f26;
+    margin-bottom: 3px;
+}
+
+.phase-time {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 8px;
+}
+
+.phase-items {
+    list-style: none;
+    padding: 0;
+}
+
+.phase-items li {
+    font-size: 12px;
+    color: #555;
+    padding: 3px 0;
+    padding-left: 14px;
+    position: relative;
+}
+
+.phase-items li::before {
+    content: '>';
+    position: absolute;
+    left: 0;
+    color: #0061d5;
+    font-weight: 700;
+}
+
+.closing {
+    text-align: center;
+    margin-top: auto;
+}
+
+.closing .thanks {
+    font-size: 24px;
+    font-weight: 300;
+    color: #151f26;
+    margin-bottom: 8px;
+}
+
+.closing .contact {
+    font-size: 13px;
+    color: #888;
+}
+</style>
+</head>
+<body>
+
+<div class="print-instructions">
+    Press <strong>Cmd + P</strong> (Mac) or <strong>Ctrl + P</strong> (Windows) &rarr; Save as PDF &rarr; Set margins to <strong>"None"</strong> &rarr; Enable <strong>"Background graphics"</strong>
+</div>
+
+<!-- SLIDE 1: TITLE -->
+<div class="slide slide-title">
+    <div class="eyebrow">Box &mdash; Internal Developer Platforms</div>
+    <h1>Dogfood the Future:<br><span>A Context-Aware AI Dev Agent</span></h1>
+    <div class="subtitle">Box builds AI agents for the enterprise. What if Box's own engineers were the first power users?</div>
+    <div class="meta"><strong>Product Management Intern Pitch</strong> &nbsp;|&nbsp; February 2026</div>
+</div>
+
+<!-- SLIDE 2: PROBLEM -->
+<div class="slide slide-problem">
+    <h2>The Knowledge Fragmentation Problem</h2>
+    <p class="section-sub">Box engineers build world-class AI tools for customers &mdash; but hunt through scattered docs to do their own work.</p>
+
+    <div class="problem-grid">
+        <div class="problem-card">
+            <div class="card-label">For Customers</div>
+            <div class="card-title">Box AI Agents</div>
+            <div class="card-desc">AI Studio lets enterprises build custom agents with multi-model support, MCP integration, and permissions-aware content access.</div>
+            <div class="card-detail">Shipped &mdash; GA across plans</div>
+        </div>
+
+        <div class="arrow-col">&larr;</div>
+
+        <div class="problem-card highlight">
+            <div class="card-label">The Gap</div>
+            <div class="card-title">Internal Dev Context</div>
+            <div class="card-desc">When a Box engineer hits a deploy failure or unfamiliar service, they dig through Confluence, Slack threads, and old post-mortems manually.</div>
+            <div class="card-detail">No AI agent for Box's own engineers</div>
+        </div>
+
+        <div class="arrow-col">&rarr;</div>
+
+        <div class="problem-card">
+            <div class="card-label">For Developers</div>
+            <div class="card-title">CI/CD &amp; Tooling</div>
+            <div class="card-desc">The IDP team maintains pipelines, internal tools, and infrastructure &mdash; but knowledge about them lives in people's heads.</div>
+            <div class="card-detail">Tribal knowledge, not indexed knowledge</div>
+        </div>
+    </div>
+
+    <div class="stat-bar">
+        <div class="stat-item">
+            <div class="stat-num">~3%</div>
+            <div class="stat-label">of engineering work automated by traditional IDPs (industry benchmark)</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">61%</div>
+            <div class="stat-label">of enterprises cite AI talent shortage as top barrier to AI deployment</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">#1</div>
+            <div class="stat-label">developer time sink: searching for information across fragmented tools</div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 3: SOLUTION -->
+<div class="slide slide-solution">
+    <h2>Context-Aware AI Dev Agent</h2>
+
+    <div class="solution-example">
+        <div class="example-scenario">Scenario</div>
+        <div class="example-text">
+            A Box engineer's deploy fails with a cryptic error in the payment service. Today, they search Slack, scan three wikis, and ping a senior engineer. With the <em>AI Dev Agent</em>, they ask: <em>"Why is payment-service deploy failing with error PG_CONN_TIMEOUT?"</em> &mdash; and get the relevant runbook, last incident resolution, and suggested fix in seconds.
+        </div>
+    </div>
+
+    <div class="solution-cols">
+        <div class="sol-col">
+            <h3>What This Requires</h3>
+            <ul>
+                <li>Box AI platform + MCP server for content indexing (already built for customers)</li>
+                <li>Connectors for internal knowledge: Confluence, GitHub, Slack, PagerDuty</li>
+                <li>IDE plugin and CLI integration for in-flow access</li>
+                <li>Permissions-aware retrieval (Box's core competency)</li>
+            </ul>
+        </div>
+        <div class="sol-col">
+            <h3>Why Now</h3>
+            <ul>
+                <li>Box AI + MCP infrastructure is production-ready &mdash; apply it internally</li>
+                <li>AI Studio's multi-model architecture supports custom agent creation today</li>
+                <li>Box is "AI-first" &mdash; internal dogfooding validates the platform for customers</li>
+                <li>Agentic engineering platforms are the next IDP evolution (Port.io, Harness)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="competitive-note">
+        <strong>Strategic value:</strong> Every bug the AI Dev Agent solves internally becomes a customer-facing case study. Dogfooding de-risks the platform and generates authentic product insights competitors can't replicate.
+    </div>
+</div>
+
+<!-- SLIDE 4: ARCHITECTURE -->
+<div class="slide slide-arch">
+    <h2>Technical Architecture</h2>
+
+    <div class="arch-flow">
+        <div class="flow-box">
+            <div class="flow-label">Trigger</div>
+            <div class="flow-desc">Engineer query via IDE / CLI / Slack</div>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-box">
+            <div class="flow-label">Retrieval</div>
+            <div class="flow-desc">MCP server indexes internal Box content</div>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-box accent">
+            <div class="flow-label">AI Layer</div>
+            <div class="flow-desc">Box AI agent with codebase context + RAG</div>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-box">
+            <div class="flow-label">Response</div>
+            <div class="flow-desc">Actionable answer with source links</div>
+        </div>
+    </div>
+
+    <div class="tradeoffs">
+        <div class="tradeoff-card">
+            <h4>Latency</h4>
+            <div class="concern">Challenge</div>
+            <div class="approach">RAG over large doc corpus can be slow. Pre-index high-value sources (runbooks, architecture docs); lazy-load Slack/comments on demand.</div>
+        </div>
+        <div class="tradeoff-card">
+            <h4>Cost</h4>
+            <div class="concern">Challenge</div>
+            <div class="approach">LLM inference at scale is expensive. Use Box AI's existing multi-model routing: fast models for simple lookups, capable models for complex diagnosis.</div>
+        </div>
+        <div class="tradeoff-card">
+            <h4>Accuracy</h4>
+            <div class="concern">Challenge</div>
+            <div class="approach">Stale docs lead to wrong answers. Show confidence scores and source timestamps; flag when content is &gt;90 days old. Engineers rate responses to improve ranking.</div>
+        </div>
+        <div class="tradeoff-card">
+            <h4>Privacy</h4>
+            <div class="concern">Challenge</div>
+            <div class="approach">Internal docs contain sensitive data. Leverage Box's permissions model &mdash; the agent only surfaces content the querying engineer has access to. No new auth layer needed.</div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 5: METRICS -->
+<div class="slide slide-metrics">
+    <h2>Success Metrics</h2>
+
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <div class="metric-type">Adoption</div>
+            <div class="metric-name">Weekly Active Engineers</div>
+            <div class="metric-desc">Engineers making at least one query per week. Segmented by team and tenure &mdash; high adoption among new hires signals strong onboarding value.</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-type">Quality</div>
+            <div class="metric-name">Resolution Rate</div>
+            <div class="metric-desc">Percentage of queries where the engineer found their answer without escalating to another person. Measured via thumbs-up/down + follow-up tracking.</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-type">Impact</div>
+            <div class="metric-name">Time-to-Resolution</div>
+            <div class="metric-desc">Time from encountering an issue to resolving it, compared against pre-agent baseline. Correlate with DORA metrics (MTTR, deploy frequency).</div>
+        </div>
+    </div>
+
+    <div class="methodology">
+        <h3>Why These Metrics</h3>
+        <p>
+            Internal tools succeed or fail on voluntary adoption &mdash; engineers won't use a tool that wastes their time.
+            <strong>Weekly active engineers</strong> is the leading indicator. <strong>Resolution rate</strong> measures whether the agent actually solves problems (not just surfaces links).
+            <strong>Time-to-resolution</strong> ties to business impact: faster unblocking means faster shipping, which the IDP team can report as platform ROI.
+        </p>
+    </div>
+</div>
+
+<!-- SLIDE 6: ROADMAP -->
+<div class="slide slide-roadmap">
+    <h2>Path Forward</h2>
+
+    <div class="roadmap-phases">
+        <div class="phase active">
+            <div class="phase-num">Phase 1</div>
+            <div class="phase-title">Discovery</div>
+            <div class="phase-time">Weeks 1&ndash;3</div>
+            <ul class="phase-items">
+                <li>Interview 10+ engineers on knowledge pain points</li>
+                <li>Audit existing internal doc sources and access patterns</li>
+                <li>Map Box AI + MCP capabilities to internal use case</li>
+            </ul>
+        </div>
+        <div class="phase">
+            <div class="phase-num">Phase 2</div>
+            <div class="phase-title">Prototype</div>
+            <div class="phase-time">Weeks 4&ndash;7</div>
+            <ul class="phase-items">
+                <li>Build Slack-based agent indexing top 3 doc sources</li>
+                <li>Scope to one engineering team as design partner</li>
+                <li>Iterate on retrieval quality with feedback loops</li>
+            </ul>
+        </div>
+        <div class="phase">
+            <div class="phase-num">Phase 3</div>
+            <div class="phase-title">Measure</div>
+            <div class="phase-time">Weeks 8&ndash;10</div>
+            <ul class="phase-items">
+                <li>Track adoption, resolution rate, satisfaction scores</li>
+                <li>A/B test: agent users vs. control group on MTTR</li>
+                <li>Document content gaps surfaced by failed queries</li>
+            </ul>
+        </div>
+        <div class="phase">
+            <div class="phase-num">Phase 4</div>
+            <div class="phase-title">Proposal</div>
+            <div class="phase-time">Weeks 11&ndash;12</div>
+            <ul class="phase-items">
+                <li>If metrics support, propose org-wide rollout plan</li>
+                <li>Draft customer-facing case study from internal results</li>
+                <li>Handoff roadmap with prioritized feature backlog</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="closing">
+        <div class="thanks">Thank you.</div>
+        <div class="contact">ML/AI + energy infrastructure background &nbsp;|&nbsp; Ready to build tools that make Box engineers faster.</div>
+    </div>
+</div>
+
+</body>
+</html>
