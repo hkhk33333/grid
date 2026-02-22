@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DER Hosting Capacity Planner — Tapestry PM Pitch</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #f0f0f0;
+    color: #1a1a2e;
+}
+
+@page {
+    size: 1100px 700px;
+    margin: 0;
+}
+
+.slide {
+    width: 1100px;
+    height: 700px;
+    padding: 60px 80px;
+    page-break-after: always;
+    page-break-inside: avoid;
+    margin: 60px auto 40px auto;
+    overflow: hidden;
+    position: relative;
+    background: #fff;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.slide:first-of-type {
+    margin-top: 80px;
+}
+
+.print-instructions {
+    background: #2c2454;
+    color: #dcfb28;
+    text-align: center;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.print-instructions strong {
+    color: #fff;
+}
+
+@media print {
+    .print-instructions {
+        display: none !important;
+    }
+    body {
+        background: white;
+    }
+    .slide {
+        margin: 0;
+        box-shadow: none;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+
+/* ===== SLIDE 1: TITLE ===== */
+.slide-title {
+    background: #2c2454;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.slide-title .eyebrow {
+    color: #dcfb28;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+}
+
+.slide-title h1 {
+    color: #fff;
+    font-size: 44px;
+    font-weight: 700;
+    line-height: 1.2;
+    max-width: 800px;
+    margin-bottom: 16px;
+}
+
+.slide-title h1 span {
+    color: #dcfb28;
+}
+
+.slide-title .subtitle {
+    color: #88adcb;
+    font-size: 20px;
+    font-weight: 300;
+    margin-bottom: 48px;
+    max-width: 600px;
+}
+
+.slide-title .meta {
+    color: #88adcb;
+    font-size: 13px;
+    font-weight: 400;
+    opacity: 0.8;
+}
+
+.slide-title .meta strong {
+    color: #fff;
+    font-weight: 500;
+}
+
+/* ===== SLIDE 2: PROBLEM ===== */
+.slide-problem h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2c2454;
+    margin-bottom: 8px;
+}
+
+.slide-problem .section-sub {
+    font-size: 15px;
+    color: #666;
+    margin-bottom: 32px;
+}
+
+.problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 40px 1fr 40px 1fr;
+    align-items: start;
+    gap: 0;
+    margin-bottom: 28px;
+}
+
+.problem-card {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid #e0e0e0;
+}
+
+.problem-card.highlight {
+    background: linear-gradient(135deg, #2c2454 0%, #3d3570 100%);
+    border: 2px solid #dcfb28;
+}
+
+.problem-card.highlight .card-title,
+.problem-card.highlight .card-desc,
+.problem-card.highlight .card-detail {
+    color: #fff;
+}
+
+.problem-card.highlight .card-label {
+    color: #dcfb28;
+}
+
+.card-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 8px;
+}
+
+.card-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: #2c2454;
+    margin-bottom: 6px;
+}
+
+.card-desc {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.5;
+}
+
+.card-detail {
+    font-size: 12px;
+    color: #888;
+    margin-top: 8px;
+    font-style: italic;
+}
+
+.arrow-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #dcfb28;
+    padding-top: 50px;
+}
+
+.stat-bar {
+    display: flex;
+    gap: 24px;
+    margin-top: 8px;
+}
+
+.stat-item {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.stat-num {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2c2454;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #666;
+    max-width: 180px;
+    line-height: 1.3;
+}
+
+/* ===== SLIDE 3: SOLUTION ===== */
+.slide-solution h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2c2454;
+    margin-bottom: 24px;
+}
+
+.solution-example {
+    background: #2c2454;
+    border-radius: 12px;
+    padding: 20px 28px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.example-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+}
+
+.example-text {
+    color: #fff;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.example-text em {
+    color: #dcfb28;
+    font-style: normal;
+    font-weight: 600;
+}
+
+.solution-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.sol-col h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2c2454;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.sol-col ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sol-col ul li {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.5;
+    padding: 6px 0;
+    padding-left: 20px;
+    position: relative;
+}
+
+.sol-col ul li::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #dcfb28;
+    position: absolute;
+    left: 0;
+    top: 12px;
+}
+
+.competitive-note {
+    margin-top: 20px;
+    padding: 12px 20px;
+    background: #fff8e1;
+    border-left: 4px solid #f9a825;
+    border-radius: 0 8px 8px 0;
+    font-size: 13px;
+    color: #555;
+}
+
+.competitive-note strong {
+    color: #e65100;
+}
+
+/* ===== SLIDE 4: ARCHITECTURE ===== */
+.slide-arch h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2c2454;
+    margin-bottom: 24px;
+}
+
+.arch-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 28px;
+}
+
+.flow-box {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 14px 16px;
+    text-align: center;
+    min-width: 120px;
+}
+
+.flow-box.accent {
+    background: #2c2454;
+    border-color: #2c2454;
+}
+
+.flow-box.accent .flow-label,
+.flow-box.accent .flow-desc {
+    color: #fff;
+}
+
+.flow-box.accent .flow-label {
+    color: #dcfb28;
+}
+
+.flow-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #999;
+    margin-bottom: 4px;
+}
+
+.flow-desc {
+    font-size: 13px;
+    font-weight: 500;
+    color: #2c2454;
+}
+
+.flow-arrow {
+    font-size: 18px;
+    color: #ccc;
+}
+
+.tradeoffs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.tradeoff-card {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 16px;
+    border-top: 3px solid #dcfb28;
+}
+
+.tradeoff-card h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: #2c2454;
+    margin-bottom: 6px;
+}
+
+.tradeoff-card .concern {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 4px;
+}
+
+.tradeoff-card .approach {
+    font-size: 12px;
+    color: #444;
+    line-height: 1.4;
+}
+
+/* ===== SLIDE 5: METRICS ===== */
+.slide-metrics h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2c2454;
+    margin-bottom: 24px;
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.metric-card {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 24px;
+    border-left: 4px solid #dcfb28;
+}
+
+.metric-type {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #999;
+    margin-bottom: 8px;
+}
+
+.metric-name {
+    font-size: 17px;
+    font-weight: 600;
+    color: #2c2454;
+    margin-bottom: 6px;
+}
+
+.metric-desc {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.5;
+}
+
+.methodology {
+    background: #2c2454;
+    border-radius: 12px;
+    padding: 20px 28px;
+}
+
+.methodology h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #dcfb28;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.methodology p {
+    font-size: 13px;
+    color: #ccc;
+    line-height: 1.6;
+}
+
+.methodology strong {
+    color: #fff;
+}
+
+/* ===== SLIDE 6: ROADMAP ===== */
+.slide-roadmap {
+    display: flex;
+    flex-direction: column;
+}
+
+.slide-roadmap h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2c2454;
+    margin-bottom: 28px;
+}
+
+.roadmap-phases {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 36px;
+}
+
+.phase {
+    position: relative;
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    border-top: 3px solid #e0e0e0;
+}
+
+.phase.active {
+    border-top-color: #dcfb28;
+    background: linear-gradient(180deg, #fafff0 0%, #fff 100%);
+}
+
+.phase-num {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 6px;
+}
+
+.phase-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2c2454;
+    margin-bottom: 4px;
+}
+
+.phase-time {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 8px;
+}
+
+.phase-items {
+    list-style: none;
+    padding: 0;
+}
+
+.phase-items li {
+    font-size: 12px;
+    color: #555;
+    padding: 3px 0;
+    padding-left: 14px;
+    position: relative;
+}
+
+.phase-items li::before {
+    content: '>';
+    position: absolute;
+    left: 0;
+    color: #dcfb28;
+    font-weight: 700;
+}
+
+.slide-roadmap .closing {
+    text-align: center;
+    margin-top: auto;
+}
+
+.closing .thanks {
+    font-size: 24px;
+    font-weight: 300;
+    color: #2c2454;
+    margin-bottom: 8px;
+}
+
+.closing .contact {
+    font-size: 13px;
+    color: #888;
+}
+</style>
+</head>
+<body>
+
+<div class="print-instructions">
+    Press <strong>Cmd + P</strong> (Mac) or <strong>Ctrl + P</strong> (Windows) &rarr; Save as PDF &rarr; Set margins to <strong>"None"</strong> &rarr; Enable <strong>"Background graphics"</strong>
+</div>
+
+<!-- SLIDE 1: TITLE -->
+<div class="slide slide-title">
+    <div class="eyebrow">Tapestry &mdash; Grid Distribution Planning</div>
+    <h1>The Missing Map:<br><span>DER Hosting Capacity Planner</span></h1>
+    <div class="subtitle">Helping utilities answer "where can we safely add solar, EVs, and storage?" &mdash; in minutes, not months.</div>
+    <div class="meta"><strong>Product Manager Intern Pitch</strong> &nbsp;|&nbsp; February 2026</div>
+</div>
+
+<!-- SLIDE 2: PROBLEM -->
+<div class="slide slide-problem">
+    <h2>The Visibility Gap in Distribution Planning</h2>
+    <p class="section-sub">Tapestry makes the transmission grid visible. The distribution grid remains a blind spot.</p>
+
+    <div class="problem-grid">
+        <div class="problem-card">
+            <div class="card-label">What Exists</div>
+            <div class="card-title">Transmission Planning</div>
+            <div class="card-desc">Tapestry's Grid Planning Tool simulates bulk power flow 86% faster, enabling 30x more scenarios for operators like PJM.</div>
+            <div class="card-detail">Mature &mdash; deployed in 6 countries</div>
+        </div>
+
+        <div class="arrow-col">&larr;</div>
+
+        <div class="problem-card highlight">
+            <div class="card-label">The Gap</div>
+            <div class="card-title">Hosting Capacity</div>
+            <div class="card-desc">Utilities can't answer: "Where on my feeders can I safely connect 500 new EV chargers without overloading?"</div>
+            <div class="card-detail">Only 58 of 3,000+ U.S. utilities publish any hosting capacity data (DOE, 2024)</div>
+        </div>
+
+        <div class="arrow-col">&rarr;</div>
+
+        <div class="problem-card">
+            <div class="card-label">What Exists</div>
+            <div class="card-title">Asset Inspection</div>
+            <div class="card-desc">GridAware inspects poles and equipment 83% faster using street-level imagery and ML, boosting asset visibility 221%.</div>
+            <div class="card-detail">Live with Vector NZ &amp; consortium</div>
+        </div>
+    </div>
+
+    <div class="stat-bar">
+        <div class="stat-item">
+            <div class="stat-num">2,600 GW</div>
+            <div class="stat-label">queued for interconnection &mdash; 2x current U.S. installed capacity (LBL, 2024)</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">~5 yrs</div>
+            <div class="stat-label">median time from request to operation, up from &lt;2 years a decade ago</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">70-80%</div>
+            <div class="stat-label">of distribution assets lack verified condition data</div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 3: SOLUTION -->
+<div class="slide slide-solution">
+    <h2>DER Hosting Capacity Planner</h2>
+
+    <div class="solution-example">
+        <div class="example-icon">&#9889;</div>
+        <div class="example-text">
+            A utility planner asks: <em>"Can Feeder 4012 support 200 new rooftop solar installations and a community battery?"</em><br>
+            Today, that question takes a manual engineering study. With the Hosting Capacity Planner, it takes minutes &mdash; powered by GPT-D's simulation engine and Tapestry's knowledge graph.
+        </div>
+    </div>
+
+    <div class="solution-cols">
+        <div class="sol-col">
+            <h3>What This Requires</h3>
+            <ul>
+                <li>GPT-D's distribution simulation engine for feeder-level power flow</li>
+                <li>Tapestry's knowledge graph for asset topology and condition data</li>
+                <li>Thermal, voltage, and protection limit modeling per circuit</li>
+                <li>Visual map layer showing capacity by location (green/yellow/red)</li>
+            </ul>
+        </div>
+        <div class="sol-col">
+            <h3>Why Now</h3>
+            <ul>
+                <li>GPT-D already deployed with Vector NZ &mdash; simulation foundation exists</li>
+                <li>DOE's DER Interconnection Roadmap (Jan 2025) calls for hosting capacity transparency</li>
+                <li>Data center boom is accelerating distribution-level load growth</li>
+                <li>GridAware asset data feeds directly into capacity models</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="competitive-note">
+        <strong>Competitive pressure:</strong> Academic tools like PowerChain (2025) demonstrate agentic AI can automate distribution analysis. If Tapestry doesn't productize hosting capacity, third parties will &mdash; without Tapestry's data moat.
+    </div>
+</div>
+
+<!-- SLIDE 4: ARCHITECTURE -->
+<div class="slide slide-arch">
+    <h2>Technical Architecture</h2>
+
+    <div class="arch-flow">
+        <div class="flow-box">
+            <div class="flow-label">Input</div>
+            <div class="flow-desc">Utility uploads DER siting request</div>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-box">
+            <div class="flow-label">Data Layer</div>
+            <div class="flow-desc">Knowledge graph resolves feeder topology</div>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-box accent">
+            <div class="flow-label">Simulation</div>
+            <div class="flow-desc">GPT-D runs power flow + contingency analysis</div>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-box">
+            <div class="flow-label">Output</div>
+            <div class="flow-desc">Hosting capacity map + upgrade recommendations</div>
+        </div>
+    </div>
+
+    <div class="tradeoffs">
+        <div class="tradeoff-card">
+            <h4>Latency</h4>
+            <div class="concern">Challenge</div>
+            <div class="approach">Full feeder simulation is compute-intensive. Use pre-computed base cases with incremental delta analysis for sub-minute responses; full re-sim on demand.</div>
+        </div>
+        <div class="tradeoff-card">
+            <h4>Cost</h4>
+            <div class="concern">Challenge</div>
+            <div class="approach">Simulation at scale requires significant compute. Tiered approach: static maps refresh nightly; dynamic queries use on-demand compute charged per analysis.</div>
+        </div>
+        <div class="tradeoff-card">
+            <h4>Failure Handling</h4>
+            <div class="concern">Challenge</div>
+            <div class="approach">Incomplete utility data leads to unreliable results. Flag confidence levels per feeder; require minimum data thresholds before showing capacity estimates.</div>
+        </div>
+        <div class="tradeoff-card">
+            <h4>Privacy</h4>
+            <div class="concern">Challenge</div>
+            <div class="approach">Feeder-level data can reveal customer information. Aggregate to circuit level for public maps; utility-only views for granular analysis behind auth.</div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 5: METRICS -->
+<div class="slide slide-metrics">
+    <h2>Success Metrics</h2>
+
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <div class="metric-type">Adoption</div>
+            <div class="metric-name">Utilities Onboarded</div>
+            <div class="metric-desc">Number of distribution utilities actively using the hosting capacity planner, tracked by monthly active queries. Segmented by utility size and region.</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-type">Quality</div>
+            <div class="metric-name">Study Time Reduction</div>
+            <div class="metric-desc">Time from DER siting question to actionable answer, compared to manual engineering study baseline. Target: match GridAware's 83% efficiency gain pattern.</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-type">Retention</div>
+            <div class="metric-name">Query Depth per Utility</div>
+            <div class="metric-desc">Monthly queries per utility over time &mdash; increasing depth signals the tool is replacing manual workflows, not just supplementing them.</div>
+        </div>
+    </div>
+
+    <div class="methodology">
+        <h3>Why These Metrics</h3>
+        <p>
+            Grid software adoption is slow and high-stakes &mdash; utilities won't switch from manual studies unless the tool proves reliable over repeated use.
+            <strong>Adoption</strong> measures go-to-market traction. <strong>Study time reduction</strong> measures whether the tool delivers on its core promise (validated against the utility's own manual study benchmarks).
+            <strong>Query depth</strong> is the leading indicator of retention: if planners run more analyses month-over-month, the tool is becoming part of their workflow, not a novelty.
+        </p>
+    </div>
+</div>
+
+<!-- SLIDE 6: ROADMAP -->
+<div class="slide slide-roadmap">
+    <h2>Path Forward</h2>
+
+    <div class="roadmap-phases">
+        <div class="phase active">
+            <div class="phase-num">Phase 1</div>
+            <div class="phase-title">Prototype</div>
+            <div class="phase-time">Weeks 1&ndash;4</div>
+            <ul class="phase-items">
+                <li>Static hosting capacity maps for one Vector NZ feeder</li>
+                <li>Leverage existing GPT-D simulation + GridAware asset data</li>
+                <li>Internal demo with engineering team</li>
+            </ul>
+        </div>
+        <div class="phase">
+            <div class="phase-num">Phase 2</div>
+            <div class="phase-title">Closed Beta</div>
+            <div class="phase-time">Weeks 5&ndash;8</div>
+            <ul class="phase-items">
+                <li>Expand to 3&ndash;5 feeders with Vector planners</li>
+                <li>Add dynamic query interface</li>
+                <li>Collect accuracy feedback vs. manual studies</li>
+            </ul>
+        </div>
+        <div class="phase">
+            <div class="phase-num">Phase 3</div>
+            <div class="phase-title">Measure</div>
+            <div class="phase-time">Weeks 9&ndash;10</div>
+            <ul class="phase-items">
+                <li>Benchmark study time reduction</li>
+                <li>Validate capacity estimates against field data</li>
+                <li>Document data quality requirements</li>
+            </ul>
+        </div>
+        <div class="phase">
+            <div class="phase-num">Phase 4</div>
+            <div class="phase-title">Scale Proposal</div>
+            <div class="phase-time">Weeks 11&ndash;12</div>
+            <ul class="phase-items">
+                <li>If metrics support, propose expansion to NZ consortium utilities</li>
+                <li>Draft product brief for U.S. distribution partners</li>
+                <li>Handoff roadmap to full-time PM</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="closing">
+        <div class="thanks">Thank you.</div>
+        <div class="contact">Built with energy domain knowledge + ML experience &nbsp;|&nbsp; Ready to make the distribution grid visible.</div>
+    </div>
+</div>
+
+</body>
+</html>
